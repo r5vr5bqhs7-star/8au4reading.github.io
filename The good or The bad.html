@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8AU4 Detailed Reading</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f1e6;
+            color: #3a2c1e;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><path d="M0 0h100v100H0z" fill="none"/><path d="M20 20h60v60H20z" stroke="%233a2c1e" stroke-width="2" fill="none"/></svg>');
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #f9f5eb;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid #d4c9b8;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #8b7355;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #5d4037;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+            color: #6d4c41;
+            font-weight: normal;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .activity-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .items-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .items-title {
+            font-size: 1.3rem;
+            color: #5d4037;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid #8b7355;
+            padding-bottom: 8px;
+        }
+        
+        .item {
+            background-color: #e8dcc9;
+            border: 1px solid #bcaaa4;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .item:hover {
+            background-color: #d7ccc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .item-number {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #8b7355;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .tables-container {
+            flex: 2;
+            display: flex;
+            gap: 20px;
+            min-width: 300px;
+        }
+        
+        @media (max-width: 768px) {
+            .activity-area {
+                flex-direction: column;
+            }
+            
+            .tables-container {
+                flex-direction: column;
+            }
+        }
+        
+        .table {
+            flex: 1;
+            border: 2px solid #8b7355;
+            border-radius: 6px;
+            padding: 15px;
+            min-height: 350px;
+            background-color: #f5f1e6;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .table.highlight {
+            background-color: #e8dcc9;
+            box-shadow: 0 0 15px rgba(139, 115, 85, 0.4);
+        }
+        
+        .table-title {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: #5d4037;
+            border-bottom: 1px solid #8b7355;
+            padding-bottom: 8px;
+        }
+        
+        #good-table {
+            border-color: #4caf50;
+        }
+        
+        #good-table .table-title {
+            color: #2e7d32;
+        }
+        
+        #bad-table {
+            border-color: #d32f2f;
+        }
+        
+        #bad-table .table-title {
+            color: #c62828;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        #check-btn {
+            background-color: #8b7355;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        }
+        
+        #check-btn:hover {
+            background-color: #6b5d45;
+        }
+        
+        .message {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .item.dragging {
+            opacity: 0.6;
+            transform: scale(0.95);
+        }
+        
+        .decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .decoration-1 {
+            top: 20px;
+            right: 20px;
+            font-size: 80px;
+            transform: rotate(15deg);
+        }
+        
+        .decoration-2 {
+            bottom: 20px;
+            left: 20px;
+            font-size: 60px;
+            transform: rotate(-10deg);
+        }
+        
+        .instructions {
+            background-color: #e8dcc9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            border-left: 4px solid #8b7355;
+            font-size: 1.05rem;
+        }
+        
+        .history-note {
+            text-align: center;
+            margin-top: 30px;
+            font-style: italic;
+            color: #6d4c41;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decoration decoration-1">🏭</div>
+        <div class="decoration decoration-2">🚂</div>
+        
+        <div class="header">
+            <h1>8AU4 Detailed Reading</h1>
+            <h2>Read each item below. Does it tell us about the good or the bad about life in 19th-century Britain? Move each item to its correct place.</h2>
+        </div>
+        
+        <div class="instructions">
+            <p>Drag and drop the items into the correct columns below. When finished, click the "Check" button to see your results.</p>
+        </div>
+        
+        <div class="activity-area">
+            <div class="items-container">
+                <h3 class="items-title">Items to Classify</h3>
+                <div class="item" id="item1" draggable="true">
+                    <div class="item-number">1</div>
+                    easier travel and communication
+                </div>
+                <div class="item" id="item2" draggable="true">
+                    <div class="item-number">2</div>
+                    new chances for travelling, carrying goods and developing businesses
+                </div>
+                <div class="item" id="item3" draggable="true">
+                    <div class="item-number">3</div>
+                    unpleasant living conditions
+                </div>
+                <div class="item" id="item4" draggable="true">
+                    <div class="item-number">4</div>
+                    foggy air
+                </div>
+                <div class="item" id="item5" draggable="true">
+                    <div class="item-number">5</div>
+                    dirty and smelly streets
+                </div>
+                <div class="item" id="item6" draggable="true">
+                    <div class="item-number">6</div>
+                    polluted rivers
+                </div>
+                <div class="item" id="item7" draggable="true">
+                    <div class="item-number">7</div>
+                    child workers
+                </div>
+            </div>
+            
+            <div class="tables-container">
+                <div class="table" id="good-table">
+                    <h3 class="table-title">The good</h3>
+                </div>
+                <div class="table" id="bad-table">
+                    <h3 class="table-title">The bad</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="check-btn">Check Answers</button>
+        </div>
+        
+        <div class="message success" id="success-message">Excellent! You did a good job!</div>
+        <div class="message error" id="error-message">What a pity! Have a try again!</div>
+        
+        <div class="history-note">
+            <p>19th century Britain was a time of great change during the Industrial Revolution, bringing both progress and challenges to society.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.item');
+            const goodTable = document.getElementById('good-table');
+            const badTable = document.getElementById('bad-table');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            const checkBtn = document.getElementById('check-btn');
+            
+            // Define which items belong to which category
+            const goodItems = ['item1', 'item2'];
+            const badItems = ['item3', 'item4', 'item5', 'item6', 'item7'];
+            
+            // Drag and drop event handlers
+            items.forEach(item => {
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragend', dragEnd);
+            });
+            
+            [goodTable, badTable].forEach(table => {
+                table.addEventListener('dragover', dragOver);
+                table.addEventListener('dragenter', dragEnter);
+                table.addEventListener('dragleave', dragLeave);
+                table.addEventListener('drop', drop);
+            });
+            
+            let draggedItem = null;
+            
+            function dragStart(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            }
+            
+            function dragEnd() {
+                this.classList.remove('dragging');
+                draggedItem = null;
+            }
+            
+            function dragOver(e) {
+                e.preventDefault();
+                return false;
+            }
+            
+            function dragEnter(e) {
+                e.preventDefault();
+                this.classList.add('highlight');
+            }
+            
+            function dragLeave() {
+                this.classList.remove('highlight');
+            }
+            
+            function drop(e) {
+                e.preventDefault();
+                this.classList.remove('highlight');
+                
+                if (draggedItem) {
+                    // Remove from original position if it's already in a table
+                    if (draggedItem.parentNode === goodTable || draggedItem.parentNode === badTable) {
+                        draggedItem.parentNode.removeChild(draggedItem);
+                    }
+                    
+                    // Add to the new table
+                    this.appendChild(draggedItem);
+                }
+                
+                return false;
+            }
+            
+            // Check answers function
+            checkBtn.addEventListener('click', function() {
+                let allCorrect = true;
+                
+                // Check good table
+                const goodTableItems = Array.from(goodTable.querySelectorAll('.item'));
+                goodTableItems.forEach(item => {
+                    if (!goodItems.includes(item.id)) {
+                        allCorrect = false;
+                    }
+                });
+                
+                // Check bad table
+                const badTableItems = Array.from(badTable.querySelectorAll('.item'));
+                badTableItems.forEach(item => {
+                    if (!badItems.includes(item.id)) {
+                        allCorrect = false;
+                    }
+                });
+                
+                // Check if all items are placed and in correct tables
+                const placedItems = goodTableItems.length + badTableItems.length;
+                if (placedItems < 7) {
+                    allCorrect = false;
+                }
+                
+                // Check counts
+                if (goodTableItems.length !== 2 || badTableItems.length !== 5) {
+                    allCorrect = false;
+                }
+                
+                // Show result message
+                if (allCorrect) {
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                } else {
+                    successMessage.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
